@@ -1,0 +1,488 @@
+@import "tailwindcss";
+
+/* الوضع الليلي بيتفعل بإضافة كلاس .dark على الـ html، مش تلقائيًا حسب نظام الجهاز */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* هوية المدرسة: أسود وذهبي */
+@theme {
+    --font-display: 'Tajawal', 'Cairo', 'Segoe UI', Tahoma, sans-serif;
+
+    --color-gold-50: #fbf6ec;
+    --color-gold-100: #f4e6c9;
+    --color-gold-200: #e8cd93;
+    --color-gold-300: #dbb066;
+    --color-gold-400: #cc9a4a;
+    --color-gold-500: #b8894a;
+    --color-gold-600: #9c6f38;
+    --color-gold-700: #7d582d;
+    --color-gold-800: #644526;
+    --color-gold-900: #4f3820;
+
+    --color-ink-50: #f4f5f7;
+    --color-ink-100: #e1e3e9;
+    --color-ink-200: #c3c7d1;
+    --color-ink-300: #9199a9;
+    --color-ink-400: #656d80;
+    --color-ink-500: #454d61;
+    --color-ink-600: #2f3547;
+    --color-ink-700: #1e2233;
+    --color-ink-800: #131625;
+    --color-ink-900: #0b0d18;
+    --color-ink-950: #060812;
+}
+
+body {
+    font-family: var(--font-display);
+}
+
+/* حركة ظهور تدريجي للمحتوى عند تحميل كل صفحة */
+#page-content {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 400ms ease, transform 400ms ease;
+}
+#page-content.page-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.brand-gradient {
+    background: linear-gradient(135deg, var(--color-ink-950) 0%, var(--color-ink-900) 55%, #241c10 100%);
+}
+
+.gold-shimmer {
+    background: linear-gradient(90deg, var(--color-gold-500), var(--color-gold-300), var(--color-gold-500));
+    background-size: 200% auto;
+    animation: shimmer 3s linear infinite;
+}
+
+.hover-lift {
+    transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+}
+.hover-lift:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px -8px rgb(0 0 0 / 0.15);
+}
+.dark .hover-lift:hover {
+    box-shadow: 0 12px 24px -8px rgb(0 0 0 / 0.5);
+}
+
+.dropdown-menu {
+    transform-origin: top;
+    animation: dropdown-in 150ms ease;
+}
+@keyframes dropdown-in {
+    from { opacity: 0; transform: scaleY(0.95) translateY(-4px); }
+    to { opacity: 1; transform: scaleY(1) translateY(0); }
+}
+
+@layer components {
+    /* بطاقات */
+    .card {
+        background-color: white;
+        border-radius: 1rem;
+        box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        border-width: 1px;
+        border-color: var(--color-ink-100);
+    }
+    .dark .card {
+        background-color: var(--color-ink-800);
+        border-color: var(--color-ink-700);
+    }
+
+    .stat-card {
+        background-color: white;
+        border-radius: 1rem;
+        box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        border-width: 1px;
+        border-color: var(--color-ink-100);
+        padding: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 0.25rem;
+    }
+    .dark .stat-card {
+        background-color: var(--color-ink-800);
+        border-color: var(--color-ink-700);
+    }
+
+    /* أزرار */
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.375rem;
+        border-radius: 0.5rem;
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        transition: background-color 150ms, color 150ms;
+    }
+    .btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.375rem;
+        border-radius: 0.5rem;
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        transition: background-color 150ms;
+        background-color: var(--color-gold-500);
+        color: var(--color-ink-900);
+    }
+    .btn-primary:hover {
+        background-color: var(--color-gold-400);
+    }
+    .btn-primary:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px var(--color-gold-300);
+    }
+
+    .btn-dark {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.375rem;
+        border-radius: 0.5rem;
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        transition: background-color 150ms;
+        background-color: var(--color-ink-900);
+        color: var(--color-gold-300);
+    }
+    .btn-dark:hover {
+        background-color: var(--color-ink-800);
+    }
+    .dark .btn-dark {
+        background-color: var(--color-ink-950);
+    }
+    .dark .btn-dark:hover {
+        background-color: var(--color-ink-800);
+    }
+
+    .btn-ghost {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.375rem;
+        border-radius: 0.5rem;
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        transition: background-color 150ms, color 150ms;
+        background-color: var(--color-ink-100);
+        color: var(--color-ink-700);
+    }
+    .btn-ghost:hover {
+        background-color: var(--color-ink-200);
+    }
+    .dark .btn-ghost {
+        background-color: var(--color-ink-700);
+        color: var(--color-ink-200);
+    }
+    .dark .btn-ghost:hover {
+        background-color: var(--color-ink-600);
+    }
+
+    .btn-danger {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.375rem;
+        border-radius: 0.5rem;
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        transition: background-color 150ms, color 150ms;
+        background-color: #fef2f2;
+        color: #dc2626;
+    }
+    .btn-danger:hover {
+        background-color: #fee2e2;
+    }
+    .dark .btn-danger {
+        background-color: rgb(239 68 68 / 0.1);
+        color: #f87171;
+    }
+    .dark .btn-danger:hover {
+        background-color: rgb(239 68 68 / 0.2);
+    }
+
+    .btn-sm {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.75rem;
+    }
+
+    .icon-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 0.5rem;
+        color: #ef4444;
+        transition: background-color 150ms;
+    }
+    .icon-btn:hover {
+        background-color: #fef2f2;
+    }
+    .dark .icon-btn:hover {
+        background-color: rgb(239 68 68 / 0.1);
+    }
+
+    /* حقول الإدخال */
+    .input {
+        width: 100%;
+        border-radius: 0.5rem;
+        border-width: 1px;
+        border-color: var(--color-ink-200);
+        background-color: white;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
+        color: var(--color-ink-900);
+        transition: box-shadow 150ms;
+    }
+    .input::placeholder {
+        color: var(--color-ink-400);
+    }
+    .input:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px var(--color-gold-400);
+        border-color: var(--color-gold-400);
+    }
+    .dark .input {
+        border-color: var(--color-ink-600);
+        background-color: var(--color-ink-900);
+        color: var(--color-ink-100);
+    }
+    .dark .input::placeholder {
+        color: var(--color-ink-500);
+    }
+
+    .label {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--color-ink-500);
+        margin-bottom: 0.25rem;
+    }
+    .dark .label {
+        color: var(--color-ink-400);
+    }
+
+    /* جداول */
+    .table-wrap {
+        overflow-x: auto;
+        border-radius: 1rem;
+        border-width: 1px;
+        border-color: var(--color-ink-100);
+        box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    }
+    .dark .table-wrap {
+        border-color: var(--color-ink-700);
+    }
+
+    .table-base {
+        width: 100%;
+        text-align: right;
+        font-size: 0.875rem;
+        white-space: nowrap;
+    }
+
+    .table-base thead {
+        background-color: var(--color-ink-900);
+    }
+    .dark .table-base thead {
+        background-color: var(--color-ink-950);
+    }
+
+    .table-base th {
+        padding: 0.75rem;
+        font-weight: 600;
+        color: var(--color-gold-300);
+    }
+
+    .table-base tbody {
+        background-color: white;
+    }
+    .dark .table-base tbody {
+        background-color: var(--color-ink-800);
+    }
+
+    .table-base tbody tr {
+        border-top-width: 1px;
+        border-color: var(--color-ink-100);
+        transition: background-color 150ms;
+    }
+    .table-base tbody tr:hover {
+        background-color: var(--color-gold-50);
+    }
+    .dark .table-base tbody tr {
+        border-color: var(--color-ink-700);
+    }
+    .dark .table-base tbody tr:hover {
+        background-color: rgb(44 44 51 / 0.5);
+    }
+
+    .table-base td {
+        padding: 0.75rem;
+        color: var(--color-ink-700);
+    }
+    .dark .table-base td {
+        color: var(--color-ink-200);
+    }
+
+    .list-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        border-top-width: 1px;
+        border-color: var(--color-ink-100);
+    }
+    .list-row:first-child {
+        border-top-width: 0;
+    }
+    .dark .list-row {
+        border-color: var(--color-ink-700);
+    }
+
+    /* شارات */
+    .badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.125rem 0.5rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    .badge-gold {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.125rem 0.5rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        background-color: var(--color-gold-100);
+        color: var(--color-gold-800);
+    }
+    .dark .badge-gold {
+        background-color: rgb(203 154 38 / 0.15);
+        color: var(--color-gold-300);
+    }
+
+    .badge-success {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.125rem 0.5rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        background-color: #ecfdf5;
+        color: #047857;
+    }
+    .dark .badge-success {
+        background-color: rgb(16 185 129 / 0.15);
+        color: #34d399;
+    }
+
+    .badge-danger {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.125rem 0.5rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        background-color: #fef2f2;
+        color: #dc2626;
+    }
+    .dark .badge-danger {
+        background-color: rgb(239 68 68 / 0.15);
+        color: #f87171;
+    }
+
+    /* عناوين */
+    .page-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--color-ink-900);
+    }
+    .dark .page-title {
+        color: white;
+    }
+
+    .page-subtitle {
+        font-size: 0.875rem;
+        color: var(--color-ink-400);
+    }
+
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--color-ink-800);
+        margin-bottom: 0.75rem;
+    }
+    .dark .section-title {
+        color: var(--color-gold-300);
+    }
+
+    .section-title::before {
+        content: "";
+        width: 0.375rem;
+        height: 1.25rem;
+        border-radius: 9999px;
+        background-color: var(--color-gold-400);
+        display: inline-block;
+    }
+
+    /* بطاقة قسم مرحلة (section) */
+    .level-section {
+        margin-bottom: 2.5rem;
+    }
+
+    .level-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom-width: 2px;
+        border-color: rgb(227 177 61 / 0.6);
+    }
+
+    .level-badge {
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 0.75rem;
+        background-color: var(--color-ink-900);
+        color: var(--color-gold-300);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.875rem;
+        flex-shrink: 0;
+    }
+    .dark .level-badge {
+        background-color: var(--color-gold-400);
+        color: var(--color-ink-900);
+    }
+}
